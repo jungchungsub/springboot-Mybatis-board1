@@ -15,6 +15,7 @@ import site.metacoding.red.domain.boards.BoardsDao;
 import site.metacoding.red.domain.users.Users;
 import site.metacoding.red.web.dto.request.boards.WriteDto;
 import site.metacoding.red.web.dto.response.boards.MainDto;
+import site.metacoding.red.web.dto.response.boards.PagingDto;
 
 @RequiredArgsConstructor
 @Controller
@@ -43,6 +44,10 @@ public class BoardsController {
 		return "redirect:/";
 	}
 	
+	
+	//데이터베이스에는 불리언타입이없다
+	
+	
 	//http://localhost:8000/? page = 20
 	@GetMapping({"/", "/boards"})
 	public String getBoardList(Model model, Integer page) { // 0 -> 0,  1->10,  2->20
@@ -50,9 +55,17 @@ public class BoardsController {
 		
 		int startNum = page * 10;
 		List<MainDto> boardsList = boardsDao.findAll(startNum);
+		
+		
+		//paging.set머시기로 dto 완성
+		
+		
+		PagingDto paging = boardsDao.paging(page);
 		model.addAttribute("boardsList", boardsList);
+		model.addAttribute("paging", paging);
 		return "boards/main";
 	}
+	
 	
 	@GetMapping("/boards/{id}")
 	public String getBoardList(@PathVariable Integer id, Model model) {
