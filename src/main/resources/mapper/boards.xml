@@ -43,7 +43,7 @@
 	</select>
 
 	<update id="update">
-
+		update boards set title= #{title}, content = #{content} WHERE id = #{id}
 	</update>
 
 	<delete id="delete">
